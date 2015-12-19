@@ -31,7 +31,7 @@ public class ConnectivityFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.activity_display_no_connectivity, container, false);
         final ConnectivityFragment connectivityFragment=this;
         ButterKnife.bind(this,rootView);
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_connectivity);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         refresh_page.setOnClickListener(new View.OnClickListener() {
