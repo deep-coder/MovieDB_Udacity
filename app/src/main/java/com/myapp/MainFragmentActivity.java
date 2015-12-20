@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.model.MovieDetails;
+import com.utils.AssortedUtils;
 import com.utils.Constants;
 import com.utils.JsonNetworkManager;
 
@@ -54,7 +55,19 @@ public class MainFragmentActivity extends Fragment {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
-        jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL);
+        if (AssortedUtils.getPreferences(Constants.PREFERENCES_SORTBY, getActivity()) != null) {
+            if (AssortedUtils.getPreferences(Constants.PREFERENCES_SORTBY, getActivity()).equals(Constants.PREFERENCES_SORTBY_POPULAR)) {
+                jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL);
+                SortBy.setSelection(0);
+            } else {
+                jsonRequest(Constants.MOVIE_DB_SORT_VOTE_AVERAGE_URL);
+                SortBy.setSelection(1);
+            }
+        } else {
+            jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL);
+            SortBy.setSelection(0);
+        }
+
         // movieGridList.setAdapter(new movieAdapter(MainActivity.this, movieDetailsList));
         movieGridList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,9 +86,11 @@ public class MainFragmentActivity extends Fragment {
                 switch (position) {
                     case 0:
                         jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL);
+                        AssortedUtils.SavePreferences(Constants.PREFERENCES_SORTBY, Constants.PREFERENCES_SORTBY_POPULAR, getActivity());
                         break;
                     case 1:
                         jsonRequest(Constants.MOVIE_DB_SORT_VOTE_AVERAGE_URL);
+                        AssortedUtils.SavePreferences(Constants.PREFERENCES_SORTBY, Constants.PREFERENCES_SORTBY_VOTE, getActivity());
                         break;
                 }
             }
@@ -89,7 +104,20 @@ public class MainFragmentActivity extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 
     private void jsonRequest(String URL) {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,

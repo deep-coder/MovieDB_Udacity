@@ -10,6 +10,9 @@ public class Constants {
     public static final String MOVIE_DB_SORT_POPULAR_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key="+MOVIE_DB_API_KEY;
     public static final String MOVIE_DB_SORT_VOTE_AVERAGE_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key="+MOVIE_DB_API_KEY;
 
+    public static  final String PREFERENCES_SORTBY="SortBy";
+    public static final String PREFERENCES_SORTBY_POPULAR="Popular";
+    public static final String PREFERENCES_SORTBY_VOTE="Vote";
     /*API Constants*/
     public static final String
             KEY_ADULT = "adult",
