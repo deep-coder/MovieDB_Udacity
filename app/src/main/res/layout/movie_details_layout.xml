@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Light">
+        android:theme="@style/AppTheme">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -52,19 +52,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/movieBackdropTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:padding="8dp"
-                android:textColor="@color/text_color_white"
-                android:textSize="25sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/movieBackdropTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:padding="8dp"
+                    android:textColor="@color/text_color_white"
+                    android:textSize="25sp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_weight="1"
+                    android:clickable="true" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/secondLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:baselineAligned="false"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -82,14 +99,13 @@
                         android:textSize="@dimen/text_header_size"
                         android:textStyle="bold" />
 
-                    <RatingBar
+                    <ImageView
                         android:id="@+id/ratingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/rating"
-                        android:isIndicator="true"
-                        android:numStars="1"
-                        android:rating="1" />
+                        android:clickable="false"
+                        android:src="@drawable/ic_rating" />
 
                     <TextView
                         android:id="@+id/ratingGiven"
@@ -98,7 +114,7 @@
                         android:layout_below="@+id/rating"
                         android:layout_marginLeft="5dp"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="14dp"
+                        android:layout_marginTop="8dp"
                         android:layout_toEndOf="@id/ratingBar"
                         android:layout_toRightOf="@+id/ratingBar"
                         android:textColor="@color/text_color"
@@ -110,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/rating"
-                        android:layout_marginTop="14dp"
+                        android:layout_marginTop="8dp"
                         android:layout_toEndOf="@id/ratingGiven"
                         android:layout_toRightOf="@+id/ratingGiven"
                         android:text="@string/rating_range"
@@ -140,9 +156,8 @@
                         android:layout_marginTop="14dp"
                         android:textColor="@color/text_color" />
                 </RelativeLayout>
+
             </LinearLayout>
-
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -159,21 +174,30 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 app:cardElevation="4dp"
-                app:contentPadding="16dp">
+                app:contentPadding="8dp">
 
                 <TextView
                     android:id="@+id/plot_synopsis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="fill_horizontal"
                     android:lineSpacingExtra="8dp"
-                    android:padding="@dimen/activity_horizontal_margin"
+                    android:padding="8dp"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/text_header_size" />
+                    android:textSize="14sp" />
             </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_heart_outline_black_48dp"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -2,6 +2,7 @@ package com.myapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,10 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.model.MovieDetails;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.utils.Constants;
 
@@ -47,7 +51,20 @@ public class MovieDetailsActivity extends AppCompatActivity {
         releaseDate.setText(movieDetails.getMovieDate());
         movieTitle.setText(movieDetails.getMovieTitle());
         String URL= Constants.MOVIE_DB_IMAGE_BASE_URL_w500+movieDetails.getImageBackDrop();
-        Picasso.with(getApplicationContext()).load(URL).into(header);
+        Picasso.with(getApplicationContext()).load(URL).into(header,new Callback() {
+            @Override public void onSuccess() {
+                Bitmap bitmap = ((BitmapDrawable) header.getDrawable()).getBitmap();
+                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                    public void onGenerated(Palette palette) {
+                        applyPalette(palette);
+                    }
+                });
+            }
+
+            @Override public void onError() {
+
+            }
+        });
         plot.setText(movieDetails.getMoviePlot());
        /* Bitmap bitmap = BitmapFactory.decodeResource(getResources(),getResources().getDrawable(R.id.image_backdrop));
 
@@ -62,5 +79,27 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         });*/
         Log.i("Parcelable",movieDetails.getMovieTitle());
+    }
+
+    private void applyPalette(Palette palette) {
+        collapsingToolbar.setContentScrimColor(palette.getMutedColor(getResources().getColor(R.color.colorPrimary)));
+        collapsingToolbar.setStatusBarScrimColor(palette.getDarkMutedColor(getResources().getColor(R.color.colorPrimaryDark)));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        switch (id){
+            case R.id.action_settings:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
