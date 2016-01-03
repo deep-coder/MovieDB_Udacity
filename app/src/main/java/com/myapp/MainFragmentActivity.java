@@ -134,10 +134,11 @@ public class MainFragmentActivity extends Fragment {
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject movieDetailsObject = array.getJSONObject(i);
                                 MovieDetails movieDetails = new MovieDetails();
+                                movieDetails.setMovieID(movieDetailsObject.getInt(Constants.KEY_ID));
                                 movieDetails.setImageThumbnail(movieDetailsObject.getString(Constants.KEY_POSTER_PATH));
                                 movieDetails.setMovieDate(movieDetailsObject.getString(Constants.KEY_RELEASE_DATE));
                                 movieDetails.setMoviePlot(movieDetailsObject.getString(Constants.KEY_OVERVIEW));
-                                movieDetails.setMovieRating(movieDetailsObject.getInt(Constants.KEY_VOTE_AVEARGE));
+                                movieDetails.setMovieRating(movieDetailsObject.getDouble(Constants.KEY_VOTE_AVEARGE));
                                 movieDetails.setMovieTitle(movieDetailsObject.getString(Constants.KEY_ORIGINAL_TITLE));
                                 movieDetails.setImageBackDrop(movieDetailsObject.getString(Constants.KEY_BACKDROP_PATH));
                                 movieDetailsList.add(movieDetails);

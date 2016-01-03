@@ -1,0 +1,94 @@
+package com.myapp;
+
+/**
+ * Created by jdeepak on 1/2/2016.
+ */
+
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.model.MovieReviews;
+import com.model.MovieTrailers;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
+
+/**
+ * Created by jdeepak on 12/29/2015.
+ */
+public class MovieTrailerRecyclerAdapter extends RecyclerView.Adapter<MovieTrailerRecyclerAdapter.ViewHolder> implements View.OnClickListener{
+
+    private List<MovieTrailers> items;
+    private int itemLayout;
+    private OnRecyclerItemViewClickListener<MovieTrailers> itemClickListener;
+
+    public MovieTrailerRecyclerAdapter(List<MovieTrailers> items,int itemLayout){
+        this.itemLayout=itemLayout;
+        this.items=items;
+    }
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v= LayoutInflater.from(parent.getContext()).inflate(itemLayout,parent,false);
+        v.setOnClickListener(this);
+        return new ViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final MovieTrailers trailersItem=items.get(position);
+        holder.itemView.setTag(trailersItem);
+        holder.trailerNo.setText("Trailer" + position);
+        holder.trailer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String key=trailersItem.getKey();
+                String site=trailersItem.getSite();
+                Uri.Builder builder = new Uri.Builder();
+                builder.scheme("http")
+                        .authority("www.youtube.com")
+                        .appendPath("watch")
+                        .appendQueryParameter("v", key);
+                String myUrl = builder.build().toString();
+                v.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myUrl)));
+                Log.i("Tag", myUrl);
+            }
+        });
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (itemClickListener != null) {
+            MovieTrailers model = (MovieTrailers) v.getTag();
+            itemClickListener.onItemClick(v, model);
+        }
+
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        public ImageView trailer;
+        public TextView trailerNo;
+        public ViewHolder(View view){
+            super(view);
+            trailer=(ImageView)view.findViewById(R.id.trailer_list);
+            trailerNo=(TextView)view.findViewById(R.id.trailer_list_number);
+
+
+        }
+
+    }
+}
+

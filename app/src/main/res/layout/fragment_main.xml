@@ -55,7 +55,7 @@
             android:clickable="true"
             android:focusable="true"
             android:horizontalSpacing="4dp"
-            android:numColumns="2"
+            android:numColumns="auto_fit"
             android:verticalSpacing="4dp"></GridView>
     </RelativeLayout>
 

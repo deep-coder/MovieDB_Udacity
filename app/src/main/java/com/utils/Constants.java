@@ -7,12 +7,13 @@ public class Constants {
     public static final String MOVIE_DB_API_KEY = "ab6e34fe40992fd26873daabaae93e53";
     public static final String MOVIE_DB_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185";
     public static final String MOVIE_DB_IMAGE_BASE_URL_w500 = "http://image.tmdb.org/t/p/w500";
-    public static final String MOVIE_DB_SORT_POPULAR_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key="+MOVIE_DB_API_KEY;
-    public static final String MOVIE_DB_SORT_VOTE_AVERAGE_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key="+MOVIE_DB_API_KEY;
-
-    public static  final String PREFERENCES_SORTBY="SortBy";
-    public static final String PREFERENCES_SORTBY_POPULAR="Popular";
-    public static final String PREFERENCES_SORTBY_VOTE="Vote";
+    public static final String MOVIE_DB_SORT_POPULAR_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + MOVIE_DB_API_KEY;
+    public static final String MOVIE_DB_SORT_VOTE_AVERAGE_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=" + MOVIE_DB_API_KEY;
+    public static final String MOVIE_DB_REVIEWS_URL = "http://api.themoviedb.org/3/movie/$/reviews?api_key=" + MOVIE_DB_API_KEY;
+    public static final String MOVIE_DB_TRAILERS_URL = "http://api.themoviedb.org/3/movie/$/videos?api_key=" + MOVIE_DB_API_KEY;
+    public static final String PREFERENCES_SORTBY = "SortBy";
+    public static final String PREFERENCES_SORTBY_POPULAR = "Popular";
+    public static final String PREFERENCES_SORTBY_VOTE = "Vote";
     /*API Constants*/
     public static final String
             KEY_ADULT = "adult",
@@ -29,6 +30,35 @@ public class Constants {
             KEY_VIDEO = "video",
             KEY_VOTE_AVEARGE = "vote_average",
             KEY_VOTE_COUNT = "vote_count";
+    /*For Movie Reviews*/
+    public static final String
+            KEY_MOVIE_REVIEW_ID = "id",
+            KEY_MOVIE_REVIEW_AUTHOR = "author",
+            KEY_MOVIE_REVIEW_CONTENT = "content";
+
+    /*For Movie Trailer"*/
+
+    public static final String
+            KEY_MOVIE_TRAILER_ID = "id",
+            KEY_MOVIE_TRAILER_ISO = "iso_639_1",
+            KEY_MOVIE_TRAILER_KEY = "key",
+            KEY_MOVIE_TRAILER_name = "name",
+            KEY_MOVIE_TRAILER_SITE = "site",
+            KEY_MOVIE_TRAILER_SIZE = "size",
+            KEY_MOVIE_TRAILER_TYPE = "type";
+    public static final String
+            MONTH_JANUARY = "January",
+            MONTH_FEBRUARY = "February",
+            MONTH_MARCH = "March",
+            MONTH_APRIL = "April",
+            MONTH_MAY = "May",
+            MONTH_JUNE = "June",
+            MONTH_JULY = "July",
+            MONTH_AUGUST = "August",
+            MONTH_SEPTEMBER = "September",
+            MONTH_OCTOBER = "October",
+            MONTH_NOVEMBER = "November",
+            MONTH_DECEMBER = "December";
 
 
 }

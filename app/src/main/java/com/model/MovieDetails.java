@@ -9,8 +9,11 @@ import java.util.Date;
  * Created by jdeepak on 12/7/2015.
  */
 public class MovieDetails implements Parcelable{
+
+
+    private int movieID;
     private String movieTitle;
-    private int movieRating;
+    private double movieRating;
     private String moviePlot;
     private String movieDate;
     private String imageThumbnail;
@@ -39,6 +42,13 @@ public class MovieDetails implements Parcelable{
     public MovieDetails(){
 
     }
+    public int getMovieID() {
+        return movieID;
+    }
+
+    public void setMovieID(int movieID) {
+        this.movieID = movieID;
+    }
     public String getMovieTitle() {
         return movieTitle;
     }
@@ -47,11 +57,11 @@ public class MovieDetails implements Parcelable{
         this.movieTitle = movieTitle;
     }
 
-    public int getMovieRating() {
+    public double getMovieRating() {
         return movieRating;
     }
 
-    public void setMovieRating(int movieRating) {
+    public void setMovieRating(double movieRating) {
         this.movieRating = movieRating;
     }
 
@@ -82,11 +92,12 @@ public class MovieDetails implements Parcelable{
     public static final Parcelable.Creator<MovieDetails> CREATOR = new Creator<MovieDetails>() {
         public MovieDetails createFromParcel(Parcel source) {
             MovieDetails movieDetails=new MovieDetails();
+            movieDetails.movieID=source.readInt();
             movieDetails.moviePlot=source.readString();
             movieDetails.imageThumbnail=source.readString();
             movieDetails.movieTitle=source.readString();
             movieDetails.movieDate=source.readString();
-            movieDetails.movieRating=source.readInt();
+            movieDetails.movieRating=source.readDouble();
             movieDetails.imageBackDrop=source.readString();
             return movieDetails;
         }
@@ -104,11 +115,12 @@ public class MovieDetails implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(movieID);
         dest.writeString(moviePlot);
         dest.writeString(imageThumbnail);
         dest.writeString(movieTitle);
         dest.writeString(movieDate);
-        dest.writeInt(movieRating);
+        dest.writeDouble(movieRating);
         dest.writeString(imageBackDrop);
 
     }

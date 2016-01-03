@@ -55,16 +55,20 @@ public class movieAdapter extends BaseAdapter {
             row = inflater.inflate(R.layout.grid_item_layout, parent, false);
             holder = new ViewHolder();
             holder.image = (ImageView) row.findViewById(R.id.poster);
+            holder.ratingText=(TextView)row.findViewById(R.id.rating_text_MainView);
+
             row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();
         }
         String URL= Constants.MOVIE_DB_IMAGE_BASE_URL+currentMovieDetails.getImageThumbnail();
         Picasso.with(mContext).load(URL).into(holder.image);
+        holder.ratingText.setText(currentMovieDetails.getMovieRating()+"");
         return row;
     }
 
     static class ViewHolder {
         ImageView image;
+        TextView ratingText;
     }
 }
