@@ -1,4 +1,4 @@
-package com.myapp;
+package com.deepcoder.movieapp.fragment;
 
 import android.view.View;
 

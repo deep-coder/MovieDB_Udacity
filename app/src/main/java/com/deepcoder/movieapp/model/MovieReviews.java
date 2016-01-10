@@ -1,4 +1,4 @@
-package com.model;
+package com.deepcoder.movieapp.model;
 
 /**
  * Created by jdeepak on 12/29/2015.

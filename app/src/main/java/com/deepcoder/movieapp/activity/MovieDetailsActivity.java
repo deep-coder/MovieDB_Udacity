@@ -1,18 +1,15 @@
-package com.myapp;
+package com.deepcoder.movieapp.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.NavUtils;
 import android.support.v7.graphics.Palette;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,20 +20,20 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.model.MovieDetails;
-import com.model.MovieReviews;
-import com.model.MovieTrailers;
+import com.deepcoder.movieapp.model.MovieDetails;
+import com.deepcoder.movieapp.model.MovieTrailers;
+import com.deepcoder.movieapp.adapter.MovieTrailerRecyclerAdapter;
+import com.deepcoder.movieapp.fragment.R;
+import com.deepcoder.movieapp.fragment.WrappingLinearLayoutManager;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.utils.Constants;
-import com.utils.DateFormatter;
-import com.utils.JsonNetworkManager;
+import com.deepcoder.movieapp.utils.Constants;
+import com.deepcoder.movieapp.utils.DateFormatter;
+import com.deepcoder.movieapp.utils.JsonNetworkManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +44,7 @@ import butterknife.ButterKnife;
 /**
  * Created by jdeepak on 12/13/2015.
  */
-public class MovieDetailsActivity extends AppCompatActivity {
+public class MovieDetailsActivity extends BaseActivity {
     @Bind(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
     int mutedColor = R.attr.colorPrimary;
@@ -115,6 +112,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void setToolBar(){
+
+    }
+
     private void jsonRequestTrailer(String URL) {
         {
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
@@ -180,6 +181,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
         switch (id) {
             case R.id.action_settings:
                 break;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);

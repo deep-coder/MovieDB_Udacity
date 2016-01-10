@@ -1,9 +1,7 @@
-package com.model;
+package com.deepcoder.movieapp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.Date;
 
 /**
  * Created by jdeepak on 12/7/2015.

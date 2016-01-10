@@ -1,19 +1,18 @@
-package com.myapp;
+package com.deepcoder.movieapp.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.model.MovieDetails;
+import com.deepcoder.movieapp.model.MovieDetails;
+import com.deepcoder.movieapp.fragment.R;
 import com.squareup.picasso.Picasso;
-import com.utils.Constants;
+import com.deepcoder.movieapp.utils.Constants;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class movieAdapter extends BaseAdapter {
     private Context mContext;
     private List<MovieDetails> movieDetailsList;
 
-    movieAdapter(Context c, List<MovieDetails> movieDetailsList) {
+    public movieAdapter(Context c, List<MovieDetails> movieDetailsList) {
         mContext = c;
         this.movieDetailsList=movieDetailsList;
     }

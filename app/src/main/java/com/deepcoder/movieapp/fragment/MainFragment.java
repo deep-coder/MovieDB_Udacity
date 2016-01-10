@@ -1,6 +1,7 @@
-package com.myapp;
+package com.deepcoder.movieapp.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,15 +14,17 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Spinner;
 
+import com.deepcoder.movieapp.activity.MovieDetailsActivity;
+import com.deepcoder.movieapp.adapter.movieAdapter;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.model.MovieDetails;
-import com.utils.AssortedUtils;
-import com.utils.Constants;
-import com.utils.JsonNetworkManager;
+import com.deepcoder.movieapp.model.MovieDetails;
+import com.deepcoder.movieapp.utils.AssortedUtils;
+import com.deepcoder.movieapp.utils.Constants;
+import com.deepcoder.movieapp.utils.JsonNetworkManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,7 +38,7 @@ import butterknife.ButterKnife;
 /**
  * Created by jdeepak on 12/16/2015.
  */
-public class MainFragmentActivity extends Fragment {
+public class MainFragment extends Fragment {
 
 
     String TAG = "MainActivity";
@@ -55,6 +58,7 @@ public class MainFragmentActivity extends Fragment {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         if (AssortedUtils.getPreferences(Constants.PREFERENCES_SORTBY, getActivity()) != null) {
             if (AssortedUtils.getPreferences(Constants.PREFERENCES_SORTBY, getActivity()).equals(Constants.PREFERENCES_SORTBY_POPULAR)) {
                 jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL);
@@ -104,6 +108,7 @@ public class MainFragmentActivity extends Fragment {
         return rootView;
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -120,6 +125,8 @@ public class MainFragmentActivity extends Fragment {
     }
 
     private void jsonRequest(String URL) {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 URL, null,
                 new Response.Listener<JSONObject>() {
@@ -145,10 +152,12 @@ public class MainFragmentActivity extends Fragment {
                                 Log.i("Object", movieDetailsObject.getString("original_title"));
                             }
                             Log.d(TAG, response.toString());
+
                         } catch (Exception e) {
 
                         }
                         movieGridList.setAdapter(new movieAdapter(getActivity(), movieDetailsList));
+                        progressDialog.hide();
 
                         Log.d(TAG, response.toString());
 
@@ -158,6 +167,7 @@ public class MainFragmentActivity extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                progressDialog.hide();
                 // hide the progress dialog
 
             }

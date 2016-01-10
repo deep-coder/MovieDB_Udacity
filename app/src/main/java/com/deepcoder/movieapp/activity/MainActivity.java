@@ -1,38 +1,16 @@
-package com.myapp;
+package com.deepcoder.movieapp.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Spinner;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.model.MovieDetails;
-import com.utils.CheckConnectivity;
-import com.utils.Constants;
-import com.utils.JsonNetworkManager;
+import com.deepcoder.movieapp.fragment.ConnectivityFragment;
+import com.deepcoder.movieapp.fragment.MainFragment;
+import com.deepcoder.movieapp.fragment.R;
+import com.deepcoder.movieapp.utils.CheckConnectivity;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     public final static String PARCELABLE_KEY = "com.myapp.parcelable";
 
@@ -43,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         if (new CheckConnectivity(getApplicationContext()).isConnectedToInternet()) {
 
-            ft.replace(R.id.fragment, new MainFragmentActivity());
+            ft.replace(R.id.fragment, new MainFragment());
 
         }
         else{

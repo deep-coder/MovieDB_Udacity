@@ -1,4 +1,4 @@
-package com.myapp;
+package com.deepcoder.movieapp.adapter;
 
 /**
  * Created by jdeepak on 1/2/2016.
@@ -14,43 +14,47 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.model.MovieReviews;
-import com.model.MovieTrailers;
-
-import org.w3c.dom.Text;
+import com.deepcoder.movieapp.model.MovieTrailers;
+import com.deepcoder.movieapp.fragment.OnRecyclerItemViewClickListener;
+import com.deepcoder.movieapp.fragment.R;
+import com.squareup.picasso.Picasso;
+import com.deepcoder.movieapp.utils.Constants;
 
 import java.util.List;
 
 /**
  * Created by jdeepak on 12/29/2015.
  */
-public class MovieTrailerRecyclerAdapter extends RecyclerView.Adapter<MovieTrailerRecyclerAdapter.ViewHolder> implements View.OnClickListener{
+public class MovieTrailerRecyclerAdapter extends RecyclerView.Adapter<MovieTrailerRecyclerAdapter.ViewHolder> implements View.OnClickListener {
 
     private List<MovieTrailers> items;
     private int itemLayout;
     private OnRecyclerItemViewClickListener<MovieTrailers> itemClickListener;
 
-    public MovieTrailerRecyclerAdapter(List<MovieTrailers> items,int itemLayout){
-        this.itemLayout=itemLayout;
-        this.items=items;
+    public MovieTrailerRecyclerAdapter(List<MovieTrailers> items, int itemLayout) {
+        this.itemLayout = itemLayout;
+        this.items = items;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(parent.getContext()).inflate(itemLayout,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(itemLayout, parent, false);
         v.setOnClickListener(this);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final MovieTrailers trailersItem=items.get(position);
+        final MovieTrailers trailersItem = items.get(position);
         holder.itemView.setTag(trailersItem);
-        holder.trailerNo.setText("Trailer" + position);
+        int trailerNo=position+1;
+        holder.trailerNo.setText("Trailer " + trailerNo);
+        Picasso.with(holder.trailer.getContext()).load(Constants.YOUTUBE_TRAILER_THUMBNAIL.replace("$", trailersItem.getKey())).into(holder.trailer);
         holder.trailer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String key=trailersItem.getKey();
-                String site=trailersItem.getSite();
+                String key = trailersItem.getKey();
+                String site = trailersItem.getSite();
                 Uri.Builder builder = new Uri.Builder();
                 builder.scheme("http")
                         .authority("www.youtube.com")
@@ -78,13 +82,14 @@ public class MovieTrailerRecyclerAdapter extends RecyclerView.Adapter<MovieTrail
 
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView trailer;
         public TextView trailerNo;
-        public ViewHolder(View view){
+
+        public ViewHolder(View view) {
             super(view);
-            trailer=(ImageView)view.findViewById(R.id.trailer_list);
-            trailerNo=(TextView)view.findViewById(R.id.trailer_list_number);
+            trailer = (ImageView) view.findViewById(R.id.trailer_list);
+            trailerNo = (TextView) view.findViewById(R.id.trailer_list_number);
 
 
         }

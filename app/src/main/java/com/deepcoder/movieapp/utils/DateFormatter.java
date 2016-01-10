@@ -1,4 +1,4 @@
-package com.utils;
+package com.deepcoder.movieapp.utils;
 
 /**
  * Created by jdeepak on 12/26/2015.

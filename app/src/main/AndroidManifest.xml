@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.myapp" >
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    package="com.deepcoder.movieapp.fragment">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-         >
+        android:supportsRtl="true">
+
         <activity
-            android:name=".MainActivity"
+            android:name="com.deepcoder.movieapp.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar.MainActivity">
             <intent-filter>
@@ -20,14 +22,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MovieDetailsActivity"
+            android:name="com.deepcoder.movieapp.activity.MovieDetailsActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName="com.deepcoder.movieapp.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.deepcoder.movieapp.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".MovieReviewsActivity"
+            android:name="com.deepcoder.movieapp.activity.MovieReviewsActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar.MainActivity" >
+            android:parentActivityName="com.deepcoder.movieapp.activity.MovieDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.deepcoder.movieapp.activity.MovieDetailsActivity" />
         </activity>
     </application>
 

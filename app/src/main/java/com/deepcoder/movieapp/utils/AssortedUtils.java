@@ -1,4 +1,4 @@
-package com.utils;
+package com.deepcoder.movieapp.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

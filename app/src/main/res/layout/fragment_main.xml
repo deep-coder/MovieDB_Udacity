@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    tools:context=".MainActivity">
+    tools:context="com.deepcoder.movieapp.activity.MainActivity">
 
 
     <android.support.v7.widget.Toolbar

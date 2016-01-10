@@ -1,4 +1,4 @@
-package com.myapp;
+package com.deepcoder.movieapp.fragment;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.utils.CheckConnectivity;
+import com.deepcoder.movieapp.utils.CheckConnectivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,7 +40,7 @@ public class ConnectivityFragment extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 if (new CheckConnectivity(rootView.getContext()).isConnectedToInternet()) {
 
-                    ft.replace(R.id.fragment, new MainFragmentActivity());
+                    ft.replace(R.id.fragment, new MainFragment());
 
                 }
                 else{

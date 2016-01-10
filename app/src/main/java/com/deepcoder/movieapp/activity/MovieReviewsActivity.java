@@ -1,10 +1,7 @@
-package com.myapp;
+package com.deepcoder.movieapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,10 +12,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.model.MovieDetails;
-import com.model.MovieReviews;
-import com.utils.Constants;
-import com.utils.JsonNetworkManager;
+import com.deepcoder.movieapp.model.MovieReviews;
+import com.deepcoder.movieapp.fragment.R;
+import com.deepcoder.movieapp.adapter.movieReviewsRecyclerAdapter;
+import com.deepcoder.movieapp.utils.Constants;
+import com.deepcoder.movieapp.utils.JsonNetworkManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,7 +30,7 @@ import butterknife.ButterKnife;
 /**
  * Created by jdeepak on 1/1/2016.
  */
-public class MovieReviewsActivity extends AppCompatActivity {
+public class MovieReviewsActivity extends BaseActivity {
     String TAG=MovieReviewsActivity.class.getSimpleName();
     @Bind(R.id.RecyclerReviewList)RecyclerView recyclerViewReview;
     List<MovieReviews> reviewList=new ArrayList<>();
