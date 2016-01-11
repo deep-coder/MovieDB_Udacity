@@ -33,6 +33,7 @@
         <activity
             android:name="com.deepcoder.movieapp.activity.MovieReviewsActivity"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar.MainActivity"
             android:parentActivityName="com.deepcoder.movieapp.activity.MovieDetailsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -1,6 +1,6 @@
 package com.deepcoder.movieapp.fragment;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,6 +48,7 @@ public class MainFragment extends Fragment {
     Spinner SortBy;
     List<MovieDetails> movieDetailsList = new ArrayList<>();
     public final static String PARCELABLE_KEY = "com.myapp.parcelable";
+    private boolean isTablet;
 
 
     @Override
@@ -76,11 +77,22 @@ public class MainFragment extends Fragment {
         movieGridList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(rootView.getContext(), MovieDetailsActivity.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putParcelable(PARCELABLE_KEY, movieDetailsList.get(position));
-                intent.putExtras(mBundle);
-                startActivity(intent);
+                boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+                if (!tabletSize) {
+                    Intent intent = new Intent(rootView.getContext(), MovieDetailsActivity.class);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putParcelable(PARCELABLE_KEY, movieDetailsList.get(position));
+                    intent.putExtras(mBundle);
+                    startActivity(intent);
+                } else {
+                    Bundle arguments = new Bundle();
+                    arguments.putParcelable(MainFragment.PARCELABLE_KEY, movieDetailsList.get(position));
+                    MovieDetailsFragment fragment = new MovieDetailsFragment();
+                    fragment.setArguments(arguments);
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.movie_detail_container, fragment)
+                            .commit();
+                }
             }
         });
 

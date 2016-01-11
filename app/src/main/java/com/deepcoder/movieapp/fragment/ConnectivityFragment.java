@@ -1,7 +1,7 @@
 package com.deepcoder.movieapp.fragment;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -37,16 +37,15 @@ public class ConnectivityFragment extends Fragment {
         refresh_page.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                if (new CheckConnectivity(rootView.getContext()).isConnectedToInternet()) {
 
-                    ft.replace(R.id.fragment, new MainFragment());
+               /* if (new CheckConnectivity(rootView.getContext()).isConnectedToInternet()) {
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new MainFragment());
 
                 }
-                else{
-                    ft.replace(R.id.fragment,connectivityFragment );
+                else{.replace(R.id.fragment,connectivityFragment );
                 }
-                ft.commit();
+                ft.commit();*/
             }
         });
         return  rootView;
