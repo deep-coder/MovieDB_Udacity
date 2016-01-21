@@ -6,16 +6,75 @@ import android.os.Parcelable;
 /**
  * Created by jdeepak on 12/7/2015.
  */
-public class MovieDetails implements Parcelable{
+public class MovieDetails implements Parcelable {
 
 
     private int movieID;
-    private String movieTitle;
+    private String movieOriginalTitle;
     private double movieRating;
     private String moviePlot;
     private String movieDate;
     private String imageThumbnail;
     private String imageBackDrop;
+    private String adultType;
+    private int[] genreID;
+    private String originalLangauge;
+    private int popularity;
+    private int voteCount;
+    private String videoAvailable;
+
+    public MovieDetails() {
+
+    }
+
+    public String getAdultType() {
+        return adultType;
+    }
+
+    public void setAdultType(String adultType) {
+        this.adultType = adultType;
+    }
+
+   /* public int[] getGenreID() {
+        return genreID;
+    }
+
+    public void setGenreID(int[] genreID) {
+        this.genreID = genreID;
+    }*/
+
+    public String getOriginalLangauge() {
+        return originalLangauge;
+    }
+
+    public void setOriginalLangauge(String originalLangauge) {
+        this.originalLangauge = originalLangauge;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public String getVideoAvailable() {
+        return videoAvailable;
+    }
+
+    public void setVideoAvailable(String videoAvailable) {
+        this.videoAvailable = videoAvailable;
+    }
+
 
     public String getImageBackDrop() {
         return imageBackDrop;
@@ -26,20 +85,6 @@ public class MovieDetails implements Parcelable{
     }
 
 
-
-    public MovieDetails(String movieTitle,int movieRating,String moviePlot,String movieDate,String imageThumbnail,String imageBackDrop){
-        this.movieTitle=movieTitle;
-        this.movieRating=movieRating;
-        this.moviePlot=moviePlot;
-        this.movieDate=movieDate;
-        this.imageThumbnail=imageThumbnail;
-        this.imageBackDrop=imageBackDrop;
-
-    }
-
-    public MovieDetails(){
-
-    }
     public int getMovieID() {
         return movieID;
     }
@@ -47,12 +92,13 @@ public class MovieDetails implements Parcelable{
     public void setMovieID(int movieID) {
         this.movieID = movieID;
     }
-    public String getMovieTitle() {
-        return movieTitle;
+
+    public String getMovieOriginalTitle() {
+        return movieOriginalTitle;
     }
 
-    public void setMovieTitle(String movieTitle) {
-        this.movieTitle = movieTitle;
+    public void setMovieOriginalTitle(String movieOriginalTitle) {
+        this.movieOriginalTitle = movieOriginalTitle;
     }
 
     public double getMovieRating() {
@@ -89,16 +135,22 @@ public class MovieDetails implements Parcelable{
 
     public static final Parcelable.Creator<MovieDetails> CREATOR = new Creator<MovieDetails>() {
         public MovieDetails createFromParcel(Parcel source) {
-            MovieDetails movieDetails=new MovieDetails();
-            movieDetails.movieID=source.readInt();
-            movieDetails.moviePlot=source.readString();
-            movieDetails.imageThumbnail=source.readString();
-            movieDetails.movieTitle=source.readString();
-            movieDetails.movieDate=source.readString();
-            movieDetails.movieRating=source.readDouble();
-            movieDetails.imageBackDrop=source.readString();
+            MovieDetails movieDetails = new MovieDetails();
+            movieDetails.movieID = source.readInt();
+            movieDetails.moviePlot = source.readString();
+            movieDetails.imageThumbnail = source.readString();
+            movieDetails.movieOriginalTitle = source.readString();
+            movieDetails.movieDate = source.readString();
+            movieDetails.movieRating = source.readDouble();
+            movieDetails.imageBackDrop = source.readString();
+            movieDetails.videoAvailable = source.readString();
+            movieDetails.adultType = source.readString();
+            movieDetails.popularity = source.readInt();
+            movieDetails.voteCount = source.readInt();
+            movieDetails.originalLangauge = source.readString();
             return movieDetails;
         }
+
         public MovieDetails[] newArray(int size) {
             return new MovieDetails[size];
 
@@ -116,10 +168,15 @@ public class MovieDetails implements Parcelable{
         dest.writeInt(movieID);
         dest.writeString(moviePlot);
         dest.writeString(imageThumbnail);
-        dest.writeString(movieTitle);
+        dest.writeString(movieOriginalTitle);
         dest.writeString(movieDate);
         dest.writeDouble(movieRating);
         dest.writeString(imageBackDrop);
+        dest.writeString(videoAvailable);
+        dest.writeString(adultType);
+        dest.writeInt(popularity);
+        dest.writeInt(voteCount);
+        dest.writeString(originalLangauge);
 
     }
 }

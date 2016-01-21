@@ -34,11 +34,18 @@
             android:name="com.deepcoder.movieapp.activity.MovieReviewsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar.MainActivity"
+            android:launchMode="singleTop"
             android:parentActivityName="com.deepcoder.movieapp.activity.MovieDetailsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.deepcoder.movieapp.activity.MovieDetailsActivity" />
         </activity>
+        <provider
+            android:name="com.deepcoder.movieapp.data.MovieDBContentProvider"
+            android:authorities="com.deepcoder.movieapp"
+            android:enabled="true"
+            android:exported="false" >
+        </provider>
     </application>
 
 </manifest>

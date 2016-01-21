@@ -14,14 +14,14 @@ public class Constants {
     public static final String PREFERENCES_SORTBY = "SortBy";
     public static final String PREFERENCES_SORTBY_POPULAR = "Popular";
     public static final String PREFERENCES_SORTBY_VOTE = "Vote";
-    public static final String YOUTUBE_TRAILER_THUMBNAIL="http://img.youtube.com/vi/$/2.jpg";
+    public static final String YOUTUBE_TRAILER_THUMBNAIL="http://img.youtube.com/vi/$/0.jpg";
     /*API Constants*/
     public static final String
             KEY_ADULT = "adult",
             KEY_BACKDROP_PATH = "backdrop_path",
             KEY_GENRE_ID = "genre_ids",
             KEY_ID = "id",
-            KEY_ORIGINAL_LANGUAGE = "original_langauge",
+            KEY_ORIGINAL_LANGUAGE = "original_language",
             KEY_ORIGINAL_TITLE = "original_title",
             KEY_OVERVIEW = "overview",
             KEY_RELEASE_DATE = "release_date",

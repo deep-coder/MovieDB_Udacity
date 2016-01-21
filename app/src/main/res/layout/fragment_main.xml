@@ -21,37 +21,10 @@
         android:layout_height="match_parent"
         android:padding="4dp">
 
-        <TextView
-            android:id="@+id/sortByHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal"
-            android:text="Sort By"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_header_size" />
-
-        <Spinner
-            android:id="@+id/spinnerSortBy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/sortByHeader"
-            android:background="@color/text_color"
-            android:entries="@array/sort_by_array"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:spinnerMode="dropdown">
-
-        </Spinner>
-
         <GridView
             android:id="@+id/movie_grid_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/spinnerSortBy"
             android:clickable="true"
             android:focusable="true"
             android:horizontalSpacing="4dp"

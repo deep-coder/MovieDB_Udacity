@@ -8,8 +8,7 @@ import android.util.Log;
 
 import com.deepcoder.movieapp.data.MovieDBContract;
 import com.deepcoder.movieapp.data.MovieDBContract.MovieEntry;
-import com.deepcoder.movieapp.data.MovieDBContract.ReviewEntry;
-import com.deepcoder.movieapp.data.MovieDBContract.VideoEntry;
+
 
 /**
  * Created by jdeepak on 1/3/2016.
@@ -18,7 +17,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-    static final String DATABASE_NAME = "popularmovies.db";
+    static final String DATABASE_NAME = "popularmoviesdb1.db";
 
 
     public MovieDBHelper(Context context) {
@@ -30,22 +29,25 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_MOVIE_TABLE =
                 "CREATE TABLE " + MovieEntry.TABLE_NAME + " (" +
                         MovieEntry._ID + " INTEGER PRIMARY KEY," +
-                        MovieEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
-                        MovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, " +
-                        MovieEntry.COLUMN_POSTER_URL + " TEXT, " +
-                        MovieEntry.COLUMN_BACKDROP_URL + " TEXT, " +
-                        MovieEntry.COLUMN_AVERAGE_RATE + " REAL, " +
-                        MovieEntry.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
-                        MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +
-                        MovieEntry.COLUMN_GENRE + " TEXT, " +
-                        MovieEntry.COLUMN_COUNTRY + " TEXT, " +
-                        MovieEntry.COLUMN_FAVORITE + " INTEGER, " +
-                        MovieEntry.COLUMN_MOST_POPULAR + " REAL, " +
-                        MovieEntry.COLUMN_HIGHEST_RATED + " INTEGER" +
+                        MovieEntry.COLUMN_MOVIES_ID + " INTEGER NOT NULL," +
+                        MovieEntry.COLUMN_VOTE_COUNT + " INTEGER," +
+                        MovieEntry.COLUMN_MOVIE_NAME + " TEXT," +
+                        MovieEntry.COLUMN_VIDEO + " TEXT," +
+                        MovieEntry.COLUMN_POPULARITY + " INTEGER," +
+                        MovieEntry.COLUMN_RATING + " DOUBLE," +
+                        MovieEntry.COLUMN_OVERVIEW + " TEXT," +
+                        MovieEntry.COLUMN_ADULT + " TEXT," +
+                        MovieEntry.COLUMN_IMAGE_URL + " TEXT," +
+                        MovieEntry.COLUMN_RELEASE_DATE + " TEXT," +
+                       MovieEntry.COLUMN_BACKDROP_PATH + " TEXT," +
+                        MovieEntry.COLUMN_LANGUAGE + " TEXT " +
+
+
                         " )";
         db.execSQL(SQL_CREATE_MOVIE_TABLE);
 
-        final String SQL_CREATE_REVIEW_TABLE =
+
+       /* final String SQL_CREATE_REVIEW_TABLE =
                 "CREATE TABLE " + MovieDBContract.ReviewEntry.TABLE_NAME + " (" +
                         ReviewEntry._ID + " INTEGER PRIMARY KEY," +
                         ReviewEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL, " +
@@ -67,7 +69,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                         VideoEntry.COLUMN_TYPE + " TEXT NOT NULL, " +
                         "FOREIGN KEY (" + VideoEntry.COLUMN_MOVIE_ID + ") REFERENCES " +
                         MovieEntry.TABLE_NAME + " (" + MovieEntry._ID + " ) ON DELETE CASCADE)";
-        db.execSQL(SQL_CREATE_VIDEO_TABLE);
+        db.execSQL(SQL_CREATE_VIDEO_TABLE);*/
     }
 
     @Override
