@@ -46,11 +46,19 @@ public class MovieDBContentProvider extends ContentProvider {
         final SQLiteDatabase db = mDBHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         int rowsDeleted;
+        String movieId = MovieDBContract.MovieEntry.getMovieIdFromUri(uri);
+        selectionArgs = new String[]{movieId};
+        selection = sMovieWithIDSelection;
         // this makes delete all rows return the number of rows deleted
-        if ( null == selection ) selection = "1";
+        if ( null == selection )
+            selection = "1";
         switch (match) {
             case MOVIE:
                 rowsDeleted = db.delete(
+                        MovieDBContract.MovieEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case MOVIE_WITH_ID:
+                rowsDeleted=db.delete(
                         MovieDBContract.MovieEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:

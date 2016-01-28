@@ -22,6 +22,16 @@ public class MovieDetails implements Parcelable {
     private int popularity;
     private int voteCount;
     private String videoAvailable;
+    private boolean isFavourite;
+
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setIsFavourite(boolean isFavourite) {
+        this.isFavourite = isFavourite;
+    }
+
 
     public MovieDetails() {
 

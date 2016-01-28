@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
 /**
  * Created by jdeepak on 12/16/2015.
  */
-public class PopularMovieFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class PopularMovieFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
 
     String TAG = "MainActivity";
@@ -46,10 +46,13 @@ public class PopularMovieFragment extends Fragment implements AdapterView.OnItem
     public final static String PARCELABLE_KEY = "com.myapp.parcelable";
     private boolean isTablet;
 
+    public static PopularMovieFragment newInstance() {
+        PopularMovieFragment popularMovieFragment = new PopularMovieFragment();
+        return popularMovieFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
     }
 
@@ -58,16 +61,13 @@ public class PopularMovieFragment extends Fragment implements AdapterView.OnItem
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-        jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL);
-
-        // movieGridList.setAdapter(new movieAdapter(MainActivity.this, movieDetailsList));
+        movieGridList.setDrawSelectorOnTop(true);
         movieGridList.setOnItemClickListener(this);
+        jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL);
         return rootView;
     }
+
+
 
 
     @Override
@@ -86,73 +86,24 @@ public class PopularMovieFragment extends Fragment implements AdapterView.OnItem
     }
 
     private void jsonRequest(String URL) {
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.show();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                URL, null,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if (movieDetailsList.size() > 0) {
-                                movieDetailsList.clear();
-                            }
-                            JSONArray array = response.getJSONArray("results");
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject movieDetailsObject = array.getJSONObject(i);
-                                MovieDetails movieDetails = new MovieDetails();
-                                movieDetails.setMovieID(movieDetailsObject.getInt(Constants.KEY_ID));
-                                movieDetails.setImageThumbnail(movieDetailsObject.getString(Constants.KEY_POSTER_PATH));
-                                movieDetails.setMovieDate(movieDetailsObject.getString(Constants.KEY_RELEASE_DATE));
-                                movieDetails.setMoviePlot(movieDetailsObject.getString(Constants.KEY_OVERVIEW));
-                                movieDetails.setMovieRating(movieDetailsObject.getDouble(Constants.KEY_VOTE_AVEARGE));
-                                movieDetails.setMovieOriginalTitle(movieDetailsObject.getString(Constants.KEY_ORIGINAL_TITLE));
-                                movieDetails.setImageBackDrop(movieDetailsObject.getString(Constants.KEY_BACKDROP_PATH));
-                                movieDetails.setOriginalLangauge(movieDetailsObject.getString(Constants.KEY_ORIGINAL_LANGUAGE));
-                                movieDetails.setVoteCount(movieDetailsObject.getInt(Constants.KEY_VOTE_COUNT));
-                                movieDetails.setPopularity(movieDetailsObject.getInt(Constants.KEY_POPULARITY));
-                                movieDetails.setAdultType(movieDetailsObject.getString(Constants.KEY_ADULT));
-                                movieDetails.setVideoAvailable(movieDetailsObject.getString(Constants.KEY_VIDEO));
-                                /*JSONArray array1 = movieDetailsObject.getJSONArray(Constants.KEY_GENRE_ID);
-                                // Create an int array to accomodate the numbers.
-                                int[] numbers = new int[array1.length()];
-
-                                for (int index = 0; index < array1.length(); ++index) {
-                                    numbers[index] = array1.optInt(index);
-                                }
-                                movieDetails.setGenreID(numbers);*/
-                                movieDetailsList.add(movieDetails);
-                                Log.i("Object", movieDetailsObject.getString("original_title"));
-                            }
-                            Log.d(TAG, response.toString());
-
-                        } catch (Exception e) {
-                            Log.i("Exception", e + "");
-                        }
-                        movieGridList.setAdapter(new movieAdapter(getActivity(), movieDetailsList));
-                        progressDialog.hide();
-
-                        Log.d(TAG, response.toString());
-
-                    }
-                }, new Response.ErrorListener() {
-
+        FragmentController fragmentController = new FragmentController();
+        fragmentController.jsonRequest(URL, getContext(), new onTaskCompleted() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                progressDialog.hide();
-                // hide the progress dialog
-
+            public void onSuccess(Object object) {
+                if (object != null) {
+                    movieDetailsList.addAll((List<MovieDetails>) object);
+                    movieGridList.setAdapter(new movieAdapter(getContext(), movieDetailsList));
+                }
             }
         });
-        JsonNetworkManager.getInstance(getActivity()).addToRequestQueue(jsonObjReq);
+
 
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        movieGridList.setItemChecked(position, true);
         if (!tabletSize) {
             Intent intent = new Intent(view.getContext(), MovieDetailsActivity.class);
             Bundle mBundle = new Bundle();

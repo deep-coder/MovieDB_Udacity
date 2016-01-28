@@ -50,6 +50,11 @@ public class FavouriteMovieFragment extends Fragment implements AdapterView.OnIt
     public final static String PARCELABLE_KEY = "com.myapp.parcelable";
     private boolean isTablet;
 
+    public static FavouriteMovieFragment newInstance(){
+        FavouriteMovieFragment favouriteMovieFragment=new FavouriteMovieFragment();
+        return favouriteMovieFragment;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,11 +67,6 @@ public class FavouriteMovieFragment extends Fragment implements AdapterView.OnIt
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-        //jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL);
         Cursor cursor = getActivity().getContentResolver().query(MovieDBContract.MovieEntry.CONTENT_URI, null, null, null, null);
         getMovieListFromCursor(cursor);
         movieGridList.setAdapter(new movieAdapter(getActivity(), movieDetailsList));

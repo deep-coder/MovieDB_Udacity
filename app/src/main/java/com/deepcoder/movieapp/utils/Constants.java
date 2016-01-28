@@ -4,7 +4,7 @@ package com.deepcoder.movieapp.utils;
  * Created by jdeepak on 12/8/2015.
  */
 public class Constants {
-    public static final String MOVIE_DB_API_KEY = "ab6e34fe40992fd26873daabaae93e53";
+    public static final String MOVIE_DB_API_KEY = "Your API KEy";
     public static final String MOVIE_DB_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185";
     public static final String MOVIE_DB_IMAGE_BASE_URL_w500 = "http://image.tmdb.org/t/p/w500";
     public static final String MOVIE_DB_SORT_POPULAR_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + MOVIE_DB_API_KEY;

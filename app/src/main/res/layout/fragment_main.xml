@@ -9,25 +9,19 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     tools:context="com.deepcoder.movieapp.activity.MainActivity">
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" />
-
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:padding="4dp">
 
         <GridView
             android:id="@+id/movie_grid_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:clickable="true"
             android:focusable="true"
             android:horizontalSpacing="4dp"
+            android:listSelector="@drawable/grid_list_selector"
             android:numColumns="auto_fit"
             android:verticalSpacing="4dp"></GridView>
     </RelativeLayout>

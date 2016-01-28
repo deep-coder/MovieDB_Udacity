@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,9 +29,13 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         if (savedInstanceState == null) {
             if (new CheckConnectivity(getApplicationContext()).isConnectedToInternet()) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new PopularMovieFragment(), "").commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment, PopularMovieFragment.newInstance(), "").commit();
 
             } else {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new ConnectivityFragment(), "").commit();
@@ -107,11 +113,11 @@ public class MainActivity extends BaseActivity {
     private Fragment getFragmentType(int itemSelected) {
         switch (itemSelected) {
             case 0:
-                return new PopularMovieFragment();
+                return PopularMovieFragment.newInstance();
             case 1:
-                return new TopRatedMovieFragment();
+                return TopRatedMovieFragment.newInstance();
             case 2:
-                return new FavouriteMovieFragment();
+                return FavouriteMovieFragment.newInstance();
 
         }
         return null;

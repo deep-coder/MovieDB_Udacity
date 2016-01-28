@@ -1,31 +1,20 @@
 package com.deepcoder.movieapp.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.deepcoder.movieapp.activity.MovieDetailsActivity;
 import com.deepcoder.movieapp.adapter.movieAdapter;
 import com.deepcoder.movieapp.model.MovieDetails;
 import com.deepcoder.movieapp.utils.Constants;
-import com.deepcoder.movieapp.utils.JsonNetworkManager;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +35,10 @@ public class TopRatedMovieFragment extends Fragment implements AdapterView.OnIte
     public final static String PARCELABLE_KEY = "com.myapp.parcelable";
     private boolean isTablet;
 
-
+    public static TopRatedMovieFragment newInstance(){
+        TopRatedMovieFragment topRatedMovieFragment=new TopRatedMovieFragment();
+        return topRatedMovieFragment;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -58,10 +50,6 @@ public class TopRatedMovieFragment extends Fragment implements AdapterView.OnIte
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         jsonRequest(Constants.MOVIE_DB_SORT_VOTE_AVERAGE_URL);
         movieGridList.setOnItemClickListener(this);
         return rootView;
@@ -84,55 +72,16 @@ public class TopRatedMovieFragment extends Fragment implements AdapterView.OnIte
     }
 
     private void jsonRequest(String URL) {
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.show();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                URL, null,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if (movieDetailsList.size() > 0) {
-                                movieDetailsList.clear();
-                            }
-                            JSONArray array = response.getJSONArray("results");
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject movieDetailsObject = array.getJSONObject(i);
-                                MovieDetails movieDetails = new MovieDetails();
-                                movieDetails.setMovieID(movieDetailsObject.getInt(Constants.KEY_ID));
-                                movieDetails.setImageThumbnail(movieDetailsObject.getString(Constants.KEY_POSTER_PATH));
-                                movieDetails.setMovieDate(movieDetailsObject.getString(Constants.KEY_RELEASE_DATE));
-                                movieDetails.setMoviePlot(movieDetailsObject.getString(Constants.KEY_OVERVIEW));
-                                movieDetails.setMovieRating(movieDetailsObject.getDouble(Constants.KEY_VOTE_AVEARGE));
-                                movieDetails.setMovieOriginalTitle(movieDetailsObject.getString(Constants.KEY_ORIGINAL_TITLE));
-                                movieDetails.setImageBackDrop(movieDetailsObject.getString(Constants.KEY_BACKDROP_PATH));
-                                movieDetailsList.add(movieDetails);
-                                Log.i("Object", movieDetailsObject.getString("original_title"));
-                            }
-                            Log.d(TAG, response.toString());
-
-                        } catch (Exception e) {
-
-                        }
-                        movieGridList.setAdapter(new movieAdapter(getActivity(), movieDetailsList));
-                        progressDialog.hide();
-
-                        Log.d(TAG, response.toString());
-
-                    }
-                }, new Response.ErrorListener() {
-
+        FragmentController fragmentController = new FragmentController();
+        fragmentController.jsonRequest(URL, getContext(), new onTaskCompleted() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                progressDialog.hide();
-                // hide the progress dialog
-
+            public void onSuccess(Object object) {
+                if (object != null) {
+                    movieDetailsList.addAll((List<MovieDetails>) object);
+                    movieGridList.setAdapter(new movieAdapter(getContext(), movieDetailsList));
+                }
             }
         });
-        JsonNetworkManager.getInstance(getActivity()).addToRequestQueue(jsonObjReq);
-
     }
 
     @Override
