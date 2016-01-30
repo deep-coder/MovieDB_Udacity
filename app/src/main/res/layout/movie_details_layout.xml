@@ -77,9 +77,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="Ant-Man"
                         android:textColor="@color/text_color"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -191,8 +190,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/btn_bg_style"
-                android:text="See All Reviews"
-                android:textSize="8sp" />
+                android:text="@string/btn_review_txt"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
@@ -203,7 +202,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
-        android:src="@drawable/ic_heart_outline_black_48dp"
+        android:src="@drawable/ic__mark_favourite"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
 

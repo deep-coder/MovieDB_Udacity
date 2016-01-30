@@ -58,7 +58,7 @@ public class movieAdapter extends BaseAdapter  {
             holder = new ViewHolder();
             holder.image = (ImageView) row.findViewById(R.id.poster);
             holder.ratingText = (TextView) row.findViewById(R.id.rating_text_MainView);
-            holder.favouriteIcon = (ImageView) row.findViewById(R.id.favourite_MainView);
+            //holder.favouriteIcon = (ImageView) row.findViewById(R.id.favourite_MainView);
             /*holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,10 +78,10 @@ public class movieAdapter extends BaseAdapter  {
         Picasso.with(mContext).load(URL).into(holder.image);
         holder.ratingText.setText(currentMovieDetails.getMovieRating() + "");
         //holder.favouriteIcon.setTag(position);
-       /* if(currentMovieDetails.isFavourite()){
+        /*if(currentMovieDetails.isFavourite()){
             Log.i("Position",position+"");
             holder.favouriteIcon.setImageResource(R.drawable.ic_favourite);
-           // notifyDataSetChanged();
+           //notifyDataSetChanged();
         }*/
 
         return row;
@@ -92,7 +92,7 @@ public class movieAdapter extends BaseAdapter  {
     static class ViewHolder {
         ImageView image;
         TextView ratingText;
-        ImageView favouriteIcon;
+        //ImageView favouriteIcon;
 
     }
 }

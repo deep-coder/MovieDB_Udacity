@@ -4,9 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,7 +20,7 @@ public class MainActivity extends BaseActivity {
     public final static String PARCELABLE_KEY = "com.myapp.parcelable";
     private boolean mTwoPane;
     String[] sortByItems = {"Popularity", "Rating", "Favourite"};
-    private int itemSelected = 0;
+    private int sortType = 0;
     private static final String FRAGMENT_TYPE = "fragmenttype";
 
     @Override
@@ -30,15 +28,14 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         if (savedInstanceState == null) {
             if (new CheckConnectivity(getApplicationContext()).isConnectedToInternet()) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment, PopularMovieFragment.newInstance(), "").commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment, PopularMovieFragment.newInstance()).commit();
 
             } else {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new ConnectivityFragment(), "").commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new ConnectivityFragment()).commit();
             }
             if (findViewById(R.id.movie_detail_container) != null) {
                 mTwoPane = true;
@@ -53,7 +50,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(FRAGMENT_TYPE, itemSelected);
+        outState.putInt(FRAGMENT_TYPE, sortType);
     }
 
     @Override
@@ -96,9 +93,9 @@ public class MainActivity extends BaseActivity {
             builder.setItems(sortByItems, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (itemSelected != which) {
-                        itemSelected = which;
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, getFragmentType(itemSelected))
+                    if (sortType != which) {
+                        sortType = which;
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, getFragmentType(sortType))
                                 .addToBackStack(null)
                                 .commit();
                     }
@@ -110,8 +107,8 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private Fragment getFragmentType(int itemSelected) {
-        switch (itemSelected) {
+    private Fragment getFragmentType(int sortType) {
+        switch (sortType) {
             case 0:
                 return PopularMovieFragment.newInstance();
             case 1:

@@ -2,6 +2,7 @@ package com.deepcoder.movieapp.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,36 +26,35 @@ import butterknife.ButterKnife;
 /**
  * Created by jdeepak on 1/13/2016.
  */
-public class TopRatedMovieFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class TopRatedMovieFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
 
     String TAG = "MainActivity";
-    @Bind(R.id.movie_grid_list)
-    GridView movieGridList;
-    List<MovieDetails> movieDetailsList = new ArrayList<>();
-    public final static String PARCELABLE_KEY = "com.myapp.parcelable";
     private boolean isTablet;
 
-    public static TopRatedMovieFragment newInstance(){
-        TopRatedMovieFragment topRatedMovieFragment=new TopRatedMovieFragment();
+    public static TopRatedMovieFragment newInstance() {
+        TopRatedMovieFragment topRatedMovieFragment = new TopRatedMovieFragment();
         return topRatedMovieFragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this, rootView);
-        jsonRequest(Constants.MOVIE_DB_SORT_VOTE_AVERAGE_URL);
-        movieGridList.setOnItemClickListener(this);
-        return rootView;
+
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+        jsonRequest(Constants.MOVIE_DB_SORT_VOTE_AVERAGE_URL);
+    }
 
     @Override
     public void onDestroy() {
@@ -71,37 +71,6 @@ public class TopRatedMovieFragment extends Fragment implements AdapterView.OnIte
         super.onStop();
     }
 
-    private void jsonRequest(String URL) {
-        FragmentController fragmentController = new FragmentController();
-        fragmentController.jsonRequest(URL, getContext(), new onTaskCompleted() {
-            @Override
-            public void onSuccess(Object object) {
-                if (object != null) {
-                    movieDetailsList.addAll((List<MovieDetails>) object);
-                    movieGridList.setAdapter(new movieAdapter(getContext(), movieDetailsList));
-                }
-            }
-        });
-    }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (!tabletSize) {
-            Intent intent = new Intent(view.getContext(), MovieDetailsActivity.class);
-            Bundle mBundle = new Bundle();
-            mBundle.putParcelable(PARCELABLE_KEY, movieDetailsList.get(position));
-            intent.putExtras(mBundle);
-            startActivity(intent);
-        } else {
-            Bundle arguments = new Bundle();
-            arguments.putParcelable(PopularMovieFragment.PARCELABLE_KEY, movieDetailsList.get(position));
-            MovieDetailsFragment fragment = new MovieDetailsFragment();
-            fragment.setArguments(arguments);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail_container, fragment)
-                    .commit();
-        }
-    }
 }
 

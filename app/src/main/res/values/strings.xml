@@ -7,6 +7,7 @@
     <string name="plot_synopsis_header">Plot Synopsis</string>
 
     <string name="refresh_page">Refresh</string>
+    <string name="btn_review_txt">See Reviews</string>
     <string-array name="sort_by_array">
         <item>Popularity</item>
         <item>Rating</item>

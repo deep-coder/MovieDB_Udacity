@@ -21,7 +21,6 @@
             android:clickable="true"
             android:focusable="true"
             android:horizontalSpacing="4dp"
-            android:listSelector="@drawable/grid_list_selector"
             android:numColumns="auto_fit"
             android:verticalSpacing="4dp"></GridView>
     </RelativeLayout>

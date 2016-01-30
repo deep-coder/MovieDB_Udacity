@@ -36,14 +36,11 @@ import butterknife.ButterKnife;
 /**
  * Created by jdeepak on 12/16/2015.
  */
-public class PopularMovieFragment extends BaseFragment implements AdapterView.OnItemClickListener {
+public class PopularMovieFragment extends BaseFragment {
 
 
     String TAG = "MainActivity";
-    @Bind(R.id.movie_grid_list)
-    GridView movieGridList;
-    List<MovieDetails> movieDetailsList = new ArrayList<>();
-    public final static String PARCELABLE_KEY = "com.myapp.parcelable";
+
     private boolean isTablet;
 
     public static PopularMovieFragment newInstance() {
@@ -54,21 +51,21 @@ public class PopularMovieFragment extends BaseFragment implements AdapterView.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this, rootView);
-        movieGridList.setDrawSelectorOnTop(true);
-        movieGridList.setOnItemClickListener(this);
-        jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL);
-        return rootView;
+
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-
-
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL);
+    }
 
     @Override
     public void onDestroy() {
@@ -85,39 +82,5 @@ public class PopularMovieFragment extends BaseFragment implements AdapterView.On
         super.onStop();
     }
 
-    private void jsonRequest(String URL) {
-        FragmentController fragmentController = new FragmentController();
-        fragmentController.jsonRequest(URL, getContext(), new onTaskCompleted() {
-            @Override
-            public void onSuccess(Object object) {
-                if (object != null) {
-                    movieDetailsList.addAll((List<MovieDetails>) object);
-                    movieGridList.setAdapter(new movieAdapter(getContext(), movieDetailsList));
-                }
-            }
-        });
 
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        movieGridList.setItemChecked(position, true);
-        if (!tabletSize) {
-            Intent intent = new Intent(view.getContext(), MovieDetailsActivity.class);
-            Bundle mBundle = new Bundle();
-            mBundle.putParcelable(PARCELABLE_KEY, movieDetailsList.get(position));
-            intent.putExtras(mBundle);
-            startActivity(intent);
-        } else {
-            Bundle arguments = new Bundle();
-            arguments.putParcelable(PopularMovieFragment.PARCELABLE_KEY, movieDetailsList.get(position));
-            MovieDetailsFragment fragment = new MovieDetailsFragment();
-            fragment.setArguments(arguments);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail_container, fragment)
-                    .commit();
-        }
-    }
 }

@@ -33,8 +33,7 @@ public class FragmentController {
     public void jsonRequest(String URL, final Context context, final onTaskCompleted onTaskCompleted) {
         {
             final List<MovieDetails> movieDetailsList = new ArrayList<>();
-            final ProgressDialog progressDialog = new ProgressDialog(context);
-            progressDialog.show();
+
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                     URL, null,
                     new Response.Listener<JSONObject>() {
@@ -85,7 +84,7 @@ public class FragmentController {
                                 Log.i("Exception", e + "");
                             }
                             onTaskCompleted.onSuccess(movieDetailsList);
-                            progressDialog.hide();
+
 
 
                         }
@@ -94,7 +93,7 @@ public class FragmentController {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     //VolleyLog.d(TAG, "Error: " + error.getMessage());
-                    progressDialog.hide();
+
                     // hide the progress dialog
 
                 }

@@ -56,7 +56,7 @@ import butterknife.ButterKnife;
 /**
  * Created by jdeepak on 1/10/2016.
  */
-public class MovieDetailsFragment extends BaseFragment implements View.OnClickListener {
+public class MovieDetailsFragment extends Fragment implements View.OnClickListener {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.collapsing_toolbar)
@@ -88,20 +88,20 @@ public class MovieDetailsFragment extends BaseFragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.movie_details_layout, container, false);
         ButterKnife.bind(this, rootView);
-
+        final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.anim_toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
         if (!tabletSize) {
             movieDetails = (MovieDetails) activity.getIntent().getParcelableExtra(MainActivity.PARCELABLE_KEY);
+            activity.setSupportActionBar(toolbar);
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            collapsingToolbar.setTitle(movieDetails.getMovieOriginalTitle());
         } else {
+            toolbar.setVisibility(View.GONE);
             Bundle bundle = getArguments();
             movieDetails = (MovieDetails) bundle.getParcelable(MainActivity.PARCELABLE_KEY);
         }
         changeFabBackGrndtoFav();
-        final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.anim_toolbar);
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        collapsingToolbar.setTitle(movieDetails.getMovieOriginalTitle());
         ratingGiven.setText(movieDetails.getMovieRating() + "");
         releaseDate.setText(DateFormatter.formatDate(movieDetails.getMovieDate()));
         movieTitle.setText(movieDetails.getMovieOriginalTitle());
@@ -192,14 +192,14 @@ public class MovieDetailsFragment extends BaseFragment implements View.OnClickLi
                 long id = ContentUris.parseId(insertedUri);
                 if (id != -1) {
                     changeFabBackGrndtoFav();
-                    showSnackBarLong(coordinatorLayout,"Added to favourites");
+                    showSnackBarLong(coordinatorLayout, "Added to favourites");
                 }
             } else {
                 int id = getActivity().getContentResolver().delete(uri, null, null);
                 if (id != -1) {
                     changeFabBackGrndtoFav();
                 }
-                showSnackBarLong(coordinatorLayout,"Removed from favorites");
+                showSnackBarLong(coordinatorLayout, "Removed from favorites");
             }
         } else if (v.getId() == R.id.btn_all_review) {
             Intent intent = new Intent(v.getContext(), MovieReviewsActivity.class);
@@ -209,12 +209,28 @@ public class MovieDetailsFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void changeFabBackGrndtoFav() {
-        String uri=isFavourite(movieDetails)?"@drawable/ic_favourite":"@drawable/ic_favourite_not_selected";
+        String uri = isFavourite(movieDetails) ? "@drawable/ic_favourite_selected" : "@drawable/ic__mark_favourite";
         int imageResource = getResources().getIdentifier(uri, null, getActivity().getPackageName());
         Drawable res = getResources().getDrawable(imageResource);
         fav_btn.setImageDrawable(res);
 
     }
 
+    protected boolean isFavourite(MovieDetails movieDetails){
+        Uri uri = MovieDBContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(movieDetails.getMovieID() + "").build();
 
+        Cursor movieCursor = getActivity().getContentResolver().query(uri, null, null, null, null);
+        if (movieCursor.moveToNext() != true) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    protected void showSnackBarLong(CoordinatorLayout coordinatorLayout,String message){
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
+
+        snackbar.show();
+    }
 }
