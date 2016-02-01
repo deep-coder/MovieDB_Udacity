@@ -17,7 +17,7 @@ import com.deepcoder.movieapp.utils.CheckConnectivity;
 
 public class MainActivity extends BaseActivity {
 
-    public final static String PARCELABLE_KEY = "com.myapp.parcelable";
+    //public final static String PARCELABLE_KEY = "com.myapp.parcelable";
     private boolean mTwoPane;
     String[] sortByItems = {"Popularity", "Rating", "Favourite"};
     private int sortType = 0;

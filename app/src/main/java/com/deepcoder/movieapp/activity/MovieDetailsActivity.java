@@ -10,6 +10,7 @@ import com.deepcoder.movieapp.fragment.PopularMovieFragment;
 import com.deepcoder.movieapp.fragment.MovieDetailsFragment;
 import com.deepcoder.movieapp.model.MovieDetails;
 import com.deepcoder.movieapp.fragment.R;
+import com.deepcoder.movieapp.utils.Constants;
 
 import butterknife.ButterKnife;
 
@@ -24,14 +25,9 @@ public class MovieDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
-        movieDetails = (MovieDetails) getIntent().getParcelableExtra(MainActivity.PARCELABLE_KEY);
+        movieDetails = (MovieDetails) getIntent().getParcelableExtra(Constants.PARCELABLE_KEY);
         if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putParcelable(PopularMovieFragment.PARCELABLE_KEY, movieDetails);
-            MovieDetailsFragment fragment = new MovieDetailsFragment();
-            fragment.setArguments(arguments);
+            MovieDetailsFragment fragment = MovieDetailsFragment.newInstance(movieDetails);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.movie_detail_container, fragment)
                     .commit();
@@ -43,7 +39,7 @@ public class MovieDetailsActivity extends BaseActivity {
     public void onSaveInstanceState(Bundle outState) {
 
         super.onSaveInstanceState(outState);
-        outState.putParcelable(MainActivity.PARCELABLE_KEY,movieDetails);
+        outState.putParcelable(Constants.PARCELABLE_KEY,movieDetails);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.deepcoder.movieapp.fragment;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -15,37 +16,31 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.deepcoder.movieapp.activity.MainActivity;
 import com.deepcoder.movieapp.activity.MovieReviewsActivity;
 import com.deepcoder.movieapp.adapter.MovieTrailerRecyclerAdapter;
-import com.deepcoder.movieapp.adapter.movieAdapter;
 import com.deepcoder.movieapp.data.MovieDBContract;
 import com.deepcoder.movieapp.model.MovieDetails;
 import com.deepcoder.movieapp.model.MovieTrailers;
 import com.deepcoder.movieapp.utils.Constants;
 import com.deepcoder.movieapp.utils.DateFormatter;
-import com.deepcoder.movieapp.utils.JsonNetworkManager;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +78,19 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     List<MovieTrailers> movieTrailersList = new ArrayList<>();
     MovieDetails movieDetails;
 
+    public static MovieDetailsFragment newInstance(MovieDetails movieDetails){
+        MovieDetailsFragment movieDetailsFragment=new MovieDetailsFragment();
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(Constants.PARCELABLE_KEY, movieDetails);
+        movieDetailsFragment.setArguments(arguments);
+        return movieDetailsFragment;
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,17 +98,18 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         ButterKnife.bind(this, rootView);
         final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.anim_toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
-        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        activity.setSupportActionBar(toolbar);
+        //setHasOptionsMenu(true);
         if (!tabletSize) {
-            movieDetails = (MovieDetails) activity.getIntent().getParcelableExtra(MainActivity.PARCELABLE_KEY);
-            activity.setSupportActionBar(toolbar);
+            movieDetails = (MovieDetails) activity.getIntent().getParcelableExtra(Constants.PARCELABLE_KEY);
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            collapsingToolbar.setTitle(movieDetails.getMovieOriginalTitle());
         } else {
-            toolbar.setVisibility(View.GONE);
+            // toolbar.inflateMenu(R.menu.menu_movie_details);
             Bundle bundle = getArguments();
-            movieDetails = (MovieDetails) bundle.getParcelable(MainActivity.PARCELABLE_KEY);
+            movieDetails = (MovieDetails) bundle.getParcelable(Constants.PARCELABLE_KEY);
         }
+        collapsingToolbar.setTitle(movieDetails.getMovieOriginalTitle());
         changeFabBackGrndtoFav();
         ratingGiven.setText(movieDetails.getMovieRating() + "");
         releaseDate.setText(DateFormatter.formatDate(movieDetails.getMovieDate()));
@@ -111,12 +120,14 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         Picasso.with(rootView.getContext()).load(URL).into(header, new Callback() {
             @Override
             public void onSuccess() {
-                Bitmap bitmap = ((BitmapDrawable) header.getDrawable()).getBitmap();
-                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                    public void onGenerated(Palette palette) {
-                        applyPalette(palette);
-                    }
-                });
+                if (!tabletSize) {
+                    Bitmap bitmap = ((BitmapDrawable) header.getDrawable()).getBitmap();
+                    Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                        public void onGenerated(Palette palette) {
+                            applyPalette(palette);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -216,7 +227,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
     }
 
-    protected boolean isFavourite(MovieDetails movieDetails){
+    protected boolean isFavourite(MovieDetails movieDetails) {
         Uri uri = MovieDBContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(movieDetails.getMovieID() + "").build();
 
         Cursor movieCursor = getActivity().getContentResolver().query(uri, null, null, null, null);
@@ -227,10 +238,31 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    protected void showSnackBarLong(CoordinatorLayout coordinatorLayout,String message){
+    protected void showSnackBarLong(CoordinatorLayout coordinatorLayout, String message) {
         Snackbar snackbar = Snackbar
                 .make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
 
         snackbar.show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //menu.clear();
+        inflater.inflate(R.menu.menu_movie_details, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+
+        return false;
     }
 }

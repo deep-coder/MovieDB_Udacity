@@ -21,12 +21,12 @@ import java.util.List;
 /**
  * Created by jdeepak on 11/22/2015.
  */
-public class movieAdapter extends BaseAdapter  {
+public class MovieAdapter extends BaseAdapter  {
     private Context mContext;
     private List<MovieDetails> movieDetailsList;
 
 
-    public movieAdapter(Context c, List<MovieDetails> movieDetailsList) {
+    public MovieAdapter(Context c, List<MovieDetails> movieDetailsList) {
         mContext = c;
         this.movieDetailsList = movieDetailsList;
     }

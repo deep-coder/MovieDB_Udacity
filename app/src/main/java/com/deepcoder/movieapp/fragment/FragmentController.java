@@ -26,13 +26,13 @@ import java.util.List;
  * Created by jdeepak on 1/21/2016.
  */
 public class FragmentController {
+    List<MovieDetails> movieDetailsList = new ArrayList<>();
 
 
-    ;
 
     public void jsonRequest(String URL, final Context context, final onTaskCompleted onTaskCompleted) {
         {
-            final List<MovieDetails> movieDetailsList = new ArrayList<>();
+
 
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                     URL, null,
@@ -41,9 +41,9 @@ public class FragmentController {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                if (movieDetailsList.size() > 0) {
+                               /* if (movieDetailsList.size() > 0) {
                                     movieDetailsList.clear();
-                                }
+                                }*/
                                 JSONArray array = response.getJSONArray("results");
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject movieDetailsObject = array.getJSONObject(i);
