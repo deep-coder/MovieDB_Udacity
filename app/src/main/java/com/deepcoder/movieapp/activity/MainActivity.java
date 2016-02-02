@@ -22,16 +22,18 @@ public class MainActivity extends BaseActivity {
     String[] sortByItems = {"Popularity", "Rating", "Favourite"};
     private int sortType = 0;
     private static final String FRAGMENT_TYPE = "fragmenttype";
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         if (savedInstanceState == null) {
             if (new CheckConnectivity(getApplicationContext()).isConnectedToInternet()) {
+                toolbar.setTitle("Popular");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment, PopularMovieFragment.newInstance()).commit();
 
             } else {
@@ -42,6 +44,10 @@ public class MainActivity extends BaseActivity {
             } else {
                 mTwoPane = false;
             }
+        }
+        else
+        {
+            sortType=savedInstanceState.getInt(FRAGMENT_TYPE);
         }
 
 
@@ -110,10 +116,13 @@ public class MainActivity extends BaseActivity {
     private Fragment getFragmentType(int sortType) {
         switch (sortType) {
             case 0:
+                toolbar.setTitle("Popular");
                 return PopularMovieFragment.newInstance();
             case 1:
+                toolbar.setTitle("Top Rated");
                 return TopRatedMovieFragment.newInstance();
             case 2:
+                toolbar.setTitle("Favourite");
                 return FavouriteMovieFragment.newInstance();
 
         }

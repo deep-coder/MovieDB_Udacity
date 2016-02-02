@@ -33,6 +33,11 @@ public class FavouriteMovieFragment extends BaseFragment implements AdapterView.
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -41,7 +46,7 @@ public class FavouriteMovieFragment extends BaseFragment implements AdapterView.
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        //super.onViewCreated(view, savedInstanceState);
         Cursor cursor = getActivity().getContentResolver().query(MovieDBContract.MovieEntry.CONTENT_URI, null, null, null, null);
         getMovieListFromCursor(cursor);
         movieGridList.setAdapter(new MovieAdapter(getActivity(), movieDetailsList));

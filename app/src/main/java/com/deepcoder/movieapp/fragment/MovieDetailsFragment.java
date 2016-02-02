@@ -241,7 +241,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     protected void showSnackBarLong(CoordinatorLayout coordinatorLayout, String message) {
         Snackbar snackbar = Snackbar
                 .make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
-
         snackbar.show();
     }
 

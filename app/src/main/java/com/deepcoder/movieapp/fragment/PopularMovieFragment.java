@@ -1,6 +1,7 @@
 package com.deepcoder.movieapp.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,26 +24,35 @@ public class PopularMovieFragment extends BaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+            super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+           return super.onCreateView(inflater, container, savedInstanceState);
+
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL,1+"");
+        if (savedInstanceState == null) {
+
+            jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL, 1 + "");
+        }
     }
 
     @Override
     protected void onScrollCompleted(int pageCount) {
-        jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL,pageCount+"");
+        jsonRequest(Constants.MOVIE_DB_SORT_POPULAR_URL, pageCount + "");
     }
 
     @Override

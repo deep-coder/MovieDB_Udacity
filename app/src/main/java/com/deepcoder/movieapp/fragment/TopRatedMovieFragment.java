@@ -23,9 +23,15 @@ public class TopRatedMovieFragment extends BaseFragment implements AdapterView.O
         return topRatedMovieFragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override

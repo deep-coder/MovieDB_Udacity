@@ -1,9 +1,12 @@
 package com.deepcoder.movieapp.fragment;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +33,10 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
     int pageCount = 1;
     @Bind(R.id.movie_grid_list)
     GridView movieGridList;
-    List<MovieDetails> movieDetailsList = null;
+    List<MovieDetails>  movieDetailsList = new ArrayList<>();
     private MovieAdapter movieAdapter;
-    private int itemClicked=0;
-    private int changeFrag=-1;
+    private int itemClicked = 0;
+    private int changeFrag = -1;
     boolean tabletSize;
     //public final static String PARCELABLE_KEY = "com.myapp.parcelable";
 
@@ -48,20 +51,37 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
         return rootView;
     }
 
+   @Override
+    public void onStart() {
+       super.onStart();
+        if(Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation) {
+            movieGridList.setNumColumns(3);
+        }else{
+            movieGridList.setNumColumns(GridView.AUTO_FIT);
+        }
+    }
+
     protected abstract void onScrollCompleted(int pageCount);
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        movieDetailsList = new ArrayList<>();
+        if(savedInstanceState!=null){
+           movieDetailsList= savedInstanceState.getParcelableArrayList("moviesList");
+        }
         movieAdapter = new MovieAdapter(getContext(), movieDetailsList);
         movieGridList.setAdapter(movieAdapter);
+
     }
+
+
 
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("moviesList", (ArrayList<? extends Parcelable>) movieDetailsList);
+
     }
 
     protected void jsonRequest(String sortType, String pageNumber) {
@@ -91,7 +111,7 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        itemClicked=position;
+        itemClicked = position;
         movieGridList.setItemChecked(position, true);
         if (!tabletSize) {
             Intent intent = new Intent(view.getContext(), MovieDetailsActivity.class);
