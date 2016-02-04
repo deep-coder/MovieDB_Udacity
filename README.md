@@ -1,6 +1,7 @@
-Udacity P1 Movie Project
+Udacity P1/P2 Movie Project
 
 Using Volley for Network API calls.
+
 
 
 
