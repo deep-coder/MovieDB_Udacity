@@ -1,12 +1,13 @@
 package com.deepcoder.movieapp.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +34,12 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
     int pageCount = 1;
     @Bind(R.id.movie_grid_list)
     GridView movieGridList;
-    List<MovieDetails>  movieDetailsList = new ArrayList<>();
+    List<MovieDetails> movieDetailsList = new ArrayList<>();
     private MovieAdapter movieAdapter;
     private int itemClicked = 0;
     private int changeFrag = -1;
     boolean tabletSize;
+    Activity activity;
     //public final static String PARCELABLE_KEY = "com.myapp.parcelable";
 
     @Nullable
@@ -46,17 +48,18 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         tabletSize = getResources().getBoolean(R.bool.isTablet);
         ButterKnife.bind(this, rootView);
+        activity = (AppCompatActivity) getActivity();
         movieGridList.setOnItemClickListener(this);
         movieGridList.setOnScrollListener(new GridViewScrollListener());
         return rootView;
     }
 
-   @Override
+    @Override
     public void onStart() {
-       super.onStart();
-        if(Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation) {
+        super.onStart();
+        if (Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation) {
             movieGridList.setNumColumns(3);
-        }else{
+        } else {
             movieGridList.setNumColumns(GridView.AUTO_FIT);
         }
     }
@@ -66,15 +69,13 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(savedInstanceState!=null){
-           movieDetailsList= savedInstanceState.getParcelableArrayList("moviesList");
+        if (savedInstanceState != null) {
+            movieDetailsList = savedInstanceState.getParcelableArrayList("moviesList");
         }
         movieAdapter = new MovieAdapter(getContext(), movieDetailsList);
         movieGridList.setAdapter(movieAdapter);
 
     }
-
-
 
 
     @Override

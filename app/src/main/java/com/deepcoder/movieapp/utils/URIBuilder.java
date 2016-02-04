@@ -2,6 +2,8 @@ package com.deepcoder.movieapp.utils;
 
 import android.net.Uri;
 
+import com.deepcoder.movieapp.model.MovieTrailers;
+
 /**
  * Created by jdeepak on 1/31/2016.
  */
@@ -24,6 +26,18 @@ public class URIBuilder {
                 .appendQueryParameter("sort_by",queryType);
         Uri uri=builder.build();
         return uri.toString();
+    }
+
+    public String buildTrailerURL(MovieTrailers trailersItem){
+        String key = trailersItem.getKey();
+        String site = trailersItem.getSite();
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http")
+                .authority("www.youtube.com")
+                .appendPath("watch")
+                .appendQueryParameter("v", key);
+        String videoUrl = builder.build().toString();
+        return videoUrl;
     }
 
 }

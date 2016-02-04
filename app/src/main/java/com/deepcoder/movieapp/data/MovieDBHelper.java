@@ -4,9 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
-import android.util.Log;
 
-import com.deepcoder.movieapp.data.MovieDBContract;
 import com.deepcoder.movieapp.data.MovieDBContract.MovieEntry;
 
 

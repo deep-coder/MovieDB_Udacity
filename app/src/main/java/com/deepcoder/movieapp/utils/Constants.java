@@ -4,11 +4,13 @@ package com.deepcoder.movieapp.utils;
  * Created by jdeepak on 12/8/2015.
  */
 public class Constants {
-    public static final String MOVIE_DB_API_KEY = "Your API KEy";
+    public final static String PARCELABLE_KEY = "com.myapp.parcelable";
+    public static final String MOVIE_DB_API_KEY = "API KEY";
     public static final String MOVIE_DB_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185";
     public static final String MOVIE_DB_IMAGE_BASE_URL_w500 = "http://image.tmdb.org/t/p/w500";
-    public static final String MOVIE_DB_SORT_POPULAR_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + MOVIE_DB_API_KEY;
-    public static final String MOVIE_DB_SORT_VOTE_AVERAGE_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=" + MOVIE_DB_API_KEY;
+    public static final String MOVIE_DB_SORT_BASE_URL="http://api.themoviedb.org/3/discover/movie";
+    public static final String MOVIE_DB_SORT_POPULAR_URL = "popularity.desc";
+    public static final String MOVIE_DB_SORT_VOTE_AVERAGE_URL = "vote_average.desc";
     public static final String MOVIE_DB_REVIEWS_URL = "http://api.themoviedb.org/3/movie/$/reviews?api_key=" + MOVIE_DB_API_KEY;
     public static final String MOVIE_DB_TRAILERS_URL = "http://api.themoviedb.org/3/movie/$/videos?api_key=" + MOVIE_DB_API_KEY;
     public static final String PREFERENCES_SORTBY = "SortBy";

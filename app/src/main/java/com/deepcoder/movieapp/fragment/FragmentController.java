@@ -1,6 +1,5 @@
 package com.deepcoder.movieapp.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;

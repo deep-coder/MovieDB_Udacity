@@ -2,24 +2,24 @@ package com.deepcoder.movieapp.fragment;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +31,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.deepcoder.movieapp.activity.MainActivity;
 import com.deepcoder.movieapp.activity.MovieReviewsActivity;
 import com.deepcoder.movieapp.adapter.MovieTrailerRecyclerAdapter;
 import com.deepcoder.movieapp.data.MovieDBContract;
@@ -39,6 +38,7 @@ import com.deepcoder.movieapp.model.MovieDetails;
 import com.deepcoder.movieapp.model.MovieTrailers;
 import com.deepcoder.movieapp.utils.Constants;
 import com.deepcoder.movieapp.utils.DateFormatter;
+import com.deepcoder.movieapp.utils.URIBuilder;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -51,12 +51,11 @@ import butterknife.ButterKnife;
 /**
  * Created by jdeepak on 1/10/2016.
  */
-public class MovieDetailsFragment extends Fragment implements View.OnClickListener {
+public class MovieDetailsFragment extends Fragment implements View.OnClickListener, ShareActionProvider.OnShareTargetSelectedListener {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
-    int mutedColor = R.attr.colorPrimary;
     @Bind(R.id.plot_synopsis)
     TextView plot;
     @Bind(R.id.movieOriginalTitle)
@@ -77,14 +76,16 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     RecyclerView recyclerViewTrailerList;
     List<MovieTrailers> movieTrailersList = new ArrayList<>();
     MovieDetails movieDetails;
+    private ShareActionProvider mShareActionProvider;
 
-    public static MovieDetailsFragment newInstance(MovieDetails movieDetails){
-        MovieDetailsFragment movieDetailsFragment=new MovieDetailsFragment();
+    public static MovieDetailsFragment newInstance(MovieDetails movieDetails) {
+        MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
         Bundle arguments = new Bundle();
         arguments.putParcelable(Constants.PARCELABLE_KEY, movieDetails);
         movieDetailsFragment.setArguments(arguments);
         return movieDetailsFragment;
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +101,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
         activity.setSupportActionBar(toolbar);
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
         if (!tabletSize) {
             movieDetails = (MovieDetails) activity.getIntent().getParcelableExtra(Constants.PARCELABLE_KEY);
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -148,6 +149,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         super.onActivityCreated(savedInstanceState);
     }
 
+    @SuppressWarnings("unchecked")
     private void jsonRequestTrailer(String URL) {
         {
             new FragmentController().trailerJsonRequest(URL, getContext(), new onTaskCompleted() {
@@ -170,8 +172,13 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     }
 
     private void applyPalette(Palette palette) {
-        collapsingToolbar.setContentScrimColor(palette.getMutedColor(getResources().getColor(R.color.colorPrimary)));
-        collapsingToolbar.setStatusBarScrimColor(palette.getDarkMutedColor(getResources().getColor(R.color.colorPrimaryDark)));
+        Palette.Swatch vibrantDark = palette.getDarkVibrantSwatch();
+        if (vibrantDark != null) {
+            //Palette.Swatch vibrantLight=palette.;
+            collapsingToolbar.setContentScrimColor(vibrantDark.getRgb());
+            collapsingToolbar.setStatusBarScrimColor(vibrantDark.getRgb());
+        }
+
     }
 
     private ContentValues generateContentValues(MovieDetails movie) {
@@ -229,13 +236,17 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
     protected boolean isFavourite(MovieDetails movieDetails) {
         Uri uri = MovieDBContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(movieDetails.getMovieID() + "").build();
-
-        Cursor movieCursor = getActivity().getContentResolver().query(uri, null, null, null, null);
-        if (movieCursor.moveToNext() != true) {
-            return false;
-        } else {
-            return true;
+        Cursor movieCursor = null;
+        try {
+            movieCursor = getActivity().getContentResolver().query(uri, null, null, null, null);
+            if (movieCursor != null) {
+                return movieCursor.moveToNext();
+            }
+        } finally {
+            movieCursor.close();
         }
+
+        return false;
     }
 
     protected void showSnackBarLong(CoordinatorLayout coordinatorLayout, String message) {
@@ -247,21 +258,46 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //menu.clear();
-        inflater.inflate(R.menu.menu_movie_details, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_movie_details, menu);
+        MenuItem item = menu.findItem(R.id.action_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+    }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(sharevideoIntent());
+            mShareActionProvider.setOnShareTargetSelectedListener(this);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
-
         return false;
+    }
+
+    private Intent sharevideoIntent() {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setAction(Intent.ACTION_SEND);
+        String URL = "";
+        if (movieTrailersList.size() > 0) {
+            URL = new URIBuilder().buildTrailerURL(movieTrailersList.get(0));
+        }
+        intent.putExtra(Intent.EXTRA_TEXT, URL);
+        intent.setType("text/plain");
+        return intent;
+    }
+
+    @Override
+    public boolean onShareTargetSelected(ShareActionProvider source, Intent inten) {
+        mShareActionProvider.setShareIntent(sharevideoIntent());
+        return true;
     }
 }

@@ -65,7 +65,8 @@
                     android:layout_width="0dp"
                     android:layout_height="120dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="2" />
+                    android:layout_weight="2"
+                    android:transitionName="@string/transition_name_poster" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -105,20 +106,20 @@
 
                             <ImageView
                                 android:id="@+id/ratingBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
                                 android:layout_alignParentTop="true"
                                 android:adjustViewBounds="true"
                                 android:clickable="false"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitXY"
                                 android:src="@drawable/ic_rating" />
 
                             <TextView
                                 android:id="@+id/ratingGiven"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="6dp"
                                 android:layout_toEndOf="@id/ratingBar"
+                                android:layout_marginTop="5dp"
                                 android:layout_toRightOf="@+id/ratingBar"
                                 android:textColor="@color/text_color"
                                 android:textSize="12sp"
@@ -128,7 +129,7 @@
                                 android:id="@+id/ratingScale"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
+                                android:layout_marginTop="6dp"
                                 android:layout_toEndOf="@id/ratingGiven"
                                 android:layout_toRightOf="@+id/ratingGiven"
                                 android:text="@string/rating_range"

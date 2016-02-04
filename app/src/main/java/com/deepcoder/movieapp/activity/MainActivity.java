@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        getSupportActionBar().setIcon(R.mipmap.ic_logo);
         if (savedInstanceState == null) {
             if (new CheckConnectivity(getApplicationContext()).isConnectedToInternet()) {
                 toolbar.setTitle("Popular");

@@ -5,4 +5,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="btn_margin">5dp</dimen>
     <dimen name="text_header_size">12sp</dimen>
+    <dimen name="text_size">16sp</dimen>
 </resources>
