@@ -16,7 +16,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.deepcoder.movieapp.activity.MovieDetailsActivity;
-import com.deepcoder.movieapp.adapter.MovieAdapter;
+import com.deepcoder.movieapp.adapter.MovieListAdapter;
 import com.deepcoder.movieapp.model.MovieDetails;
 import com.deepcoder.movieapp.utils.Constants;
 import com.deepcoder.movieapp.utils.URIBuilder;
@@ -35,7 +35,7 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
     @Bind(R.id.movie_grid_list)
     GridView movieGridList;
     List<MovieDetails> movieDetailsList = new ArrayList<>();
-    private MovieAdapter movieAdapter;
+    private MovieListAdapter movieListAdapter;
     private int itemClicked = 0;
     private int changeFrag = -1;
     boolean tabletSize;
@@ -72,8 +72,8 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
         if (savedInstanceState != null) {
             movieDetailsList = savedInstanceState.getParcelableArrayList("moviesList");
         }
-        movieAdapter = new MovieAdapter(getContext(), movieDetailsList);
-        movieGridList.setAdapter(movieAdapter);
+        movieListAdapter = new MovieListAdapter(getContext(), movieDetailsList);
+        movieGridList.setAdapter(movieListAdapter);
 
     }
 
@@ -95,7 +95,7 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
             public void onSuccess(Object object) {
                 if (object != null) {
                     movieDetailsList.addAll((List<MovieDetails>) object);
-                    movieAdapter.notifyDataSetChanged();
+                    movieListAdapter.notifyDataSetChanged();
                     //progressDialog.hide();
                    /* if(tabletSize &&(itemClicked!=changeFrag)){
                         changeFrag=itemClicked;

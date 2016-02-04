@@ -2,11 +2,6 @@ package com.deepcoder.movieapp.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,23 +10,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.deepcoder.movieapp.model.MovieDetails;
 import com.deepcoder.movieapp.fragment.R;
+import com.deepcoder.movieapp.model.MovieDetails;
+import com.deepcoder.movieapp.utils.Constants;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.deepcoder.movieapp.utils.Constants;
 
 import java.util.List;
 
 /**
  * Created by jdeepak on 11/22/2015.
  */
-public class MovieAdapter extends BaseAdapter  {
+public class MovieListAdapter extends BaseAdapter  {
     private Context mContext;
     private List<MovieDetails> movieDetailsList;
 
 
-    public MovieAdapter(Context c, List<MovieDetails> movieDetailsList) {
+    public MovieListAdapter(Context c, List<MovieDetails> movieDetailsList) {
         mContext = c;
         this.movieDetailsList = movieDetailsList;
     }

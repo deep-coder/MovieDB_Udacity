@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.deepcoder.movieapp.adapter.MovieAdapter;
+import com.deepcoder.movieapp.adapter.MovieListAdapter;
 import com.deepcoder.movieapp.data.MovieDBContract;
 import com.deepcoder.movieapp.model.MovieDetails;
 
@@ -49,7 +49,7 @@ public class FavouriteMovieFragment extends BaseFragment implements AdapterView.
         //super.onViewCreated(view, savedInstanceState);
         Cursor cursor = getActivity().getContentResolver().query(MovieDBContract.MovieEntry.CONTENT_URI, null, null, null, null);
         getMovieListFromCursor(cursor);
-        movieGridList.setAdapter(new MovieAdapter(getActivity(), movieDetailsList));
+        movieGridList.setAdapter(new MovieListAdapter(getActivity(), movieDetailsList));
     }
 
     @Override
